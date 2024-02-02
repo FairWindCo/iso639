@@ -5,6 +5,7 @@ Python library for ISO 639 standard
 Copyright (c) 2014-2016 Mikael Karlsson (CSC - IT Center for Science Ltd.).
 Licensed under AGPLv3.
 """
+import importlib_resources
 
 # Fix for Python 3.0 - 3.2
 if not __package__:
@@ -17,14 +18,14 @@ def _fabtabular():
     """
     import csv
     import sys
-    from pkg_resources import resource_filename
 
-    data = resource_filename(__package__, 'iso-639-3.tab')
-    inverted = resource_filename(__package__, 'iso-639-3_Name_Index.tab')
-    macro = resource_filename(__package__, 'iso-639-3-macrolanguages.tab')
-    part5 = resource_filename(__package__, 'iso639-5.tsv')
-    part2 = resource_filename(__package__, 'iso639-2.tsv')
-    part1 = resource_filename(__package__, 'iso639-1.tsv')
+    import importlib
+    data = importlib_resources.files(__package__) / 'iso-639-3.tab'
+    inverted = importlib_resources.files(__package__) / 'iso-639-3_Name_Index.tab'
+    macro = importlib_resources.files(__package__) / 'iso-639-3-macrolanguages.tab'
+    part5 = importlib_resources.files(__package__) / 'iso639-5.tsv'
+    part2 = importlib_resources.files(__package__) / 'iso639-2.tsv'
+    part1 = importlib_resources.files(__package__) / 'iso639-1.tsv'
 
     # if sys.version_info[0] == 2:
     #     from urllib2 import urlopen
@@ -236,9 +237,9 @@ class Iso639(object):
             import csv
             import re
             from datetime import datetime
-            from pkg_resources import resource_filename
 
-            with open(resource_filename(__package__, 'iso-639-3_Retirements.tab')) as rf:
+
+            with open(importlib_resources.files(__package__) / 'iso-639-3_Retirements.tab') as rf:
                 rtd = list(csv.reader(rf, delimiter='\t'))[1:]
                 rc = [r[0] for r in rtd]
                 for i, _, _, m, s, d in rtd:
